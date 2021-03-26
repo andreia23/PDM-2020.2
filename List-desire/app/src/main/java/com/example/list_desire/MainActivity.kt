@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import com.example.list_desire.model.Desejo
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         this.btAdd = findViewById(R.id.fabAdd)
         this.listDesejos.adapter = ArrayAdapter<Desejo>(this, android.R.layout.simple_list_item_1,this.list)
 
-        this.listDesejos.setOnItemClickListener(C)
+        this.listDesejos.setOnItemLongClickListener(ClickRemove())
 
         this.btAdd.setOnClickListener({clickAdd(it)})
     }
@@ -47,8 +48,18 @@ class MainActivity : AppCompatActivity() {
                 (this.listDesejos.adapter as ArrayAdapter<Desejo>).add(desejo)
                 Log.i("DESEJOS", this.list.toString())
             }
+
         }else if (resultCode == Activity.RESULT_CANCELED){
             Log.i("APP_TELAS", "Voltou: " + "Voltou pelo dispositivo")
+        }
+    }
+
+    inner class ClickRemove: AdapterView.OnItemLongClickListener{
+        override fun onItemLongClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long
+        ): Boolean {
+            val desejo = this@MainActivity.list[position]
+            (this@MainActivity.listDesejos.adapter as ArrayAdapter<Desejo>).remove(desejo)
+            return true
         }
     }
 }
