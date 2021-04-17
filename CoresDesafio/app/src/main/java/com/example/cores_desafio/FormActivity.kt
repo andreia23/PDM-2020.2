@@ -38,24 +38,26 @@ class FormActivity : AppCompatActivity() {
         this.btSalvar = findViewById(R.id.btSalvar)
         this.btCancelar = findViewById(R.id.btCancelar)
 
-        if (intent.hasExtra("COR")){
+
+        val cod = Color.rgb(corRed.progress, corGreen.progress, corBlue.progress)
+        updateColorButton(cod)
+        this.btCor.setText(codigoHexa)
+
+        if (intent.hasExtra("COR")) {
             val cor = intent.getSerializableExtra("COR") as Cor
             this.nomeCor.setText(cor.nome)
             this.btCor.setText(codigoHexa)
             this.btSalvar.text = "Atualizar"
+        } else {
         }
-
-        val cod = Color.rgb(corRed.progress,corGreen.progress,corBlue.progress)
-        updateColorButton(cod)
-        this.btCor.setText(codigoHexa)
 
         this.corRed.setOnSeekBarChangeListener(ChangeSeekbar())
         this.corGreen.setOnSeekBarChangeListener(ChangeSeekbar())
         this.corBlue.setOnSeekBarChangeListener(ChangeSeekbar())
 
-        this.btSalvar.setOnClickListener({salvar(it)})
-        this.btCancelar.setOnClickListener({cancelar(it)})
-        this.btCor.setOnClickListener({copiarCodigo(it)})
+        this.btSalvar.setOnClickListener({ salvar(it) })
+        this.btCancelar.setOnClickListener({ cancelar(it) })
+        this.btCor.setOnClickListener({ copiarCodigo(it) })
 
     }
 
@@ -66,18 +68,18 @@ class FormActivity : AppCompatActivity() {
 //        Log.i("BLUE",codBlue.toString())
 //        Log.i("JUNTOS",color.toString())
 
-        val cor = if (intent.hasExtra("COR")){
+        val cor = if (intent.hasExtra("COR")) {
             val c = intent.getSerializableExtra("COR") as Cor
             c.nome = nome
             c.codigo = codigoRgb
             c
-        }else{
-            Cor(nome,codigoRgb)
+        } else {
+            Cor(nome, codigoRgb)
         }
 
         val intent = Intent()
         intent.putExtra("COR", cor)
-        setResult(Activity.RESULT_OK,intent)
+        setResult(Activity.RESULT_OK, intent)
         finish()
 
     }
@@ -90,15 +92,16 @@ class FormActivity : AppCompatActivity() {
 
     }
 
-    inner class ChangeSeekbar:SeekBar.OnSeekBarChangeListener{
+    inner class ChangeSeekbar : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             val codRed = corRed.progress
             val codGreen = corGreen.progress
             val codBlue = corBlue.progress
-            val color = Color.rgb(codRed,codGreen,codBlue)
+            val color = Color.rgb(codRed, codGreen, codBlue)
             updateColorButton(color)
 
         }
+
         override fun onStartTrackingTouch(seekBar: SeekBar?) {
         }
 
@@ -107,7 +110,7 @@ class FormActivity : AppCompatActivity() {
 
     }
 
-    fun updateColorButton(colorButton: Int){
+    fun updateColorButton(colorButton: Int) {
         this.btCor.setBackgroundColor(colorButton)
         this.codigoRgb = colorButton
         val codHex = String.format("#%06X", (0xFFFFFF and colorButton))
@@ -116,7 +119,7 @@ class FormActivity : AppCompatActivity() {
 
     }
 
-    private fun cancelar(view: View){
+    private fun cancelar(view: View) {
         finish()
     }
 }
