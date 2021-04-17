@@ -5,6 +5,7 @@ class Cor : Serializable{
     var id: Int
     var nome: String
     var codigo: Int
+
     constructor(nome: String, codigo: Int){
         this.id = -1
         this.nome = nome
