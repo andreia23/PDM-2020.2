@@ -8,11 +8,13 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.SeekBar
 import android.widget.Toast
+import com.example.cores_desafio.dao.CorDAO
 import com.example.cores_desafio.model.Cor
 
 class FormActivity : AppCompatActivity() {
@@ -23,6 +25,7 @@ class FormActivity : AppCompatActivity() {
     private lateinit var btCor: Button
     private lateinit var btSalvar: Button
     private lateinit var btCancelar: Button
+    private lateinit var daoCor: CorDAO
     private var codigoRgb: Int = 0
     private var codigoHexa: String = ""
 
@@ -38,18 +41,21 @@ class FormActivity : AppCompatActivity() {
         this.btSalvar = findViewById(R.id.btSalvar)
         this.btCancelar = findViewById(R.id.btCancelar)
 
-
-        val cod = Color.rgb(corRed.progress, corGreen.progress, corBlue.progress)
-        updateColorButton(cod)
-        this.btCor.setText(codigoHexa)
+        this.daoCor = CorDAO(this)
 
         if (intent.hasExtra("COR")) {
             val cor = intent.getSerializableExtra("COR") as Cor
             this.nomeCor.setText(cor.nome)
-            this.btCor.setText(codigoHexa)
+            this.corRed.progress = Color.red(cor.codigo)
+            this.corGreen.progress = Color.green(cor.codigo)
+            this.corBlue.progress = Color.blue(cor.codigo)
+            updateColorButton(cor.codigo)
             this.btSalvar.text = "Atualizar"
-        } else {
         }
+
+        val cod = Color.rgb(corRed.progress, corGreen.progress, corBlue.progress)
+        updateColorButton(cod)
+        this.btCor.setText(codigoHexa)
 
         this.corRed.setOnSeekBarChangeListener(ChangeSeekbar())
         this.corGreen.setOnSeekBarChangeListener(ChangeSeekbar())
@@ -63,10 +69,7 @@ class FormActivity : AppCompatActivity() {
 
     private fun salvar(view: View) {
         val nome = this.nomeCor.text.toString()
-//          Log.i("RED",codRed.toString())
-//        Log.i("GREEN",codGreen.toString())
-//        Log.i("BLUE",codBlue.toString())
-//        Log.i("JUNTOS",color.toString())
+        val color = Cor(nome, codigoRgb)
 
         val cor = if (intent.hasExtra("COR")) {
             val c = intent.getSerializableExtra("COR") as Cor
@@ -74,7 +77,9 @@ class FormActivity : AppCompatActivity() {
             c.codigo = codigoRgb
             c
         } else {
-            Cor(nome, codigoRgb)
+            this.daoCor.insert(color)
+            Log.i("BANCO_LOG INSERIR", this.daoCor.select().toString())
+            color
         }
 
         val intent = Intent()
