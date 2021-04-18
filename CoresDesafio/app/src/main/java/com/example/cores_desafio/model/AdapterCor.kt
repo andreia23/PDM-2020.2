@@ -1,7 +1,6 @@
 package com.example.cores_desafio.model
 
 import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,7 @@ class AdapterCor(var cadastro: CadastroCor, var context: Context) : BaseAdapter(
         val nomeCor = linha.findViewById<TextView>(R.id.nomeCor)
         val codigoCor = linha.findViewById<TextView>(R.id.codCor)
 
-        image.setImageResource(R.drawable.palheta3)
+        image.setImageResource(R.drawable.ic_baseline_palette_24)
         image.setColorFilter(cor.codigo)
         nomeCor.text = cor.nome
         val codHex = String.format("#%06X", (0xFFFFFF and cor.codigo))
