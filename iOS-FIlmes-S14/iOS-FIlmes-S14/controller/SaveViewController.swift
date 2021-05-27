@@ -43,7 +43,8 @@ class SaveViewController: UIViewController {
             quantiAssistido: quantiAssistido
         )
         
-        self.cadastro = (UIApplication.shared.delegate as! AppDelegate).cadastro
+        self.cadastro = (UIApplication.shared.delegate as! AppDelegate).cadastro]
+        self.cadastro.add(filme: filme)
         self.navigationController?.popViewController(animated: true)
     
     }
