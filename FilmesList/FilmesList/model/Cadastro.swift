@@ -36,7 +36,7 @@ class Cadastro {
     }
     
     func mov(de: Int, para: Int){
-        
+        self.lista.swapAt(de, para)
     }
     
     func update(index: Int, filme: Filme){
