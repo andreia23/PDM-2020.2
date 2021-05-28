@@ -44,8 +44,12 @@ class SaveViewController: UIViewController {
             quantiAssistido: quantiAssistido
         )
         
-        self.cadastro = (UIApplication.shared.delegate as! AppDelegate).cadastro
-        self.cadastro.add(filme: filme)
+        if (self.filmeParaEdicao != nil){
+            self.cadastro.update(index: self.filmeParaEdicao, filme: filme)
+        }else{
+            self.cadastro.add(filme: filme)
+        }
+        
         self.navigationController?.popViewController(animated: true)
         
     
@@ -61,8 +65,8 @@ class SaveViewController: UIViewController {
                self.switch_indicado.isOn = filme.isIndicadoOscar
                
            }
-           self.valor_nota.text = "\(Int(self.slider_nota.value))"
-           self.lb_quantiAssistido.text = "\(Int(self.stepper_assitido.value))"
+           self.valor_nota.text = String(Int(self.slider_nota.value))
+           self.lb_quantiAssistido.text = String(Int(self.stepper_assitido.value))
        }
     
 }
