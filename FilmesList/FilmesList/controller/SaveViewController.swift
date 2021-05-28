@@ -54,7 +54,7 @@ class SaveViewController: UIViewController {
      override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(true)
            if (self.filmeParaEdicao != nil){
-               let filme = self.cadastro.get(index: self.filmeParaEdicao!)
+               let filme = self.cadastro.get(index: self.filmeParaEdicao)
                self.tf_nome.text = filme.nome
                self.slider_nota.value = Float(filme.nota)
                self.stepper_assitido.value = Double(filme.quantiAssistido)
