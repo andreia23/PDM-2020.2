@@ -55,7 +55,6 @@ class FilmesTableViewController: UITableViewController {
     
     // Override to support rearranging the table view.
     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-        // vocês irão implementar
         self.cadastro.mov(de: fromIndexPath.row, para: to.row)
     }
 
@@ -65,7 +64,6 @@ class FilmesTableViewController: UITableViewController {
     }
         
      override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-           //let disciplina = self.cadastro.get(index: indexPath.row)
            let svc = self.storyboard?.instantiateViewController(identifier: "formulario") as! SaveViewController
            svc.filmeParaEdicao = indexPath.row
            self.navigationController?.pushViewController(svc, animated: true)
