@@ -15,31 +15,30 @@ class ListarTableViewController: UITableViewController {
     
     @IBAction func getPessoa(_ sender: Any) {
         
-       let janela = UIAlertController(title: "Filtro", message: "Filtro", preferredStyle: UIAlertController.Style.alert)
+       let janela = UIAlertController(title: "Filtro", message: "Filtrar pelo o nome da pessoa", preferredStyle: UIAlertController.Style.alert)
         
         janela.addTextField { textField in
             textField.placeholder = "Informe o nome"
         }
         
         janela.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default,handler: { alertAction in
+            self.delegate = (UIApplication.shared.delegate as! AppDelegate)
             let nome = janela.textFields![0].text!
             
-        let request:NSFetchRequest<Pessoa> = Pessoa.fetchRequest()
-                  request.predicate = NSPredicate(format: "nome CONTAINS %@", nome)
-                  
-                  do {
-                      let pessoas = try self.delegate.persistentContainer.viewContext.fetch(request)
-                    if(nome == ""){
-                        return
-                    }else{
-                        self.lista = pessoas
-                        self.tableView.reloadData()
-                    }
+            let requisicao:NSFetchRequest<Pessoa> = Pessoa.fetchRequest()
+            requisicao.predicate = NSPredicate(format: "nome CONTAINS %@", nome)
+            do {
+                let pessoas = try self.delegate.persistentContainer.viewContext.fetch(requisicao)
+                if(nome == ""){
+                     return
+                }else{
+                     self.lista = pessoas
+                     self.tableView.reloadData()
+                }
                     
-                  } catch {
+                } catch {
                     self.lista = Array<Pessoa>()
-                  }
-            
+                }
         }))
         
         janela.addAction(UIAlertAction(title: "Cancelar", style: UIAlertAction.Style.cancel, handler: { alertAction in
@@ -50,7 +49,7 @@ class ListarTableViewController: UITableViewController {
                    self.lista = PessoaDAO().get()
                    self.tableView.reloadData()
                }))
-        
+                       
         self.present(janela, animated: true, completion: nil)
     }
         
